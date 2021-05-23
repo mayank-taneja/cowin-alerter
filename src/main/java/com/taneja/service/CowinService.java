@@ -9,6 +9,7 @@ import com.taneja.response.cowin.Sessions;
 import com.taneja.response.cowin.calendar.*;
 import com.taneja.sound.PlaySound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
@@ -33,6 +34,9 @@ public class CowinService {
 
     @Autowired
     PlaySound playSound;
+
+    @Value("${second.alert.min}")
+    Integer minAlert;
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -210,7 +214,7 @@ public class CowinService {
             pincodelist.add(pin);
         }
 
-        if(!resultList.isEmpty() && resultList.get(0).getCapacity() >= 10) {
+        if(!resultList.isEmpty() && resultList.get(0).getCapacity() >= minAlert) {
             playSound.playBeep();
         }
 
