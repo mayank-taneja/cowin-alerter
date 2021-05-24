@@ -38,6 +38,12 @@ public class CowinService {
     @Value("${second.alert.min}")
     Integer minAlert;
 
+    @Value("${first.district.id}")
+    Integer firstDistrictId;
+
+    @Value("${last.district.id}")
+    Integer lastDistrictId;
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         // Do any additional configuration here
@@ -60,7 +66,7 @@ public class CowinService {
         headers.set(HttpHeaders.REFERER, "https://www.cowin.gov.in");
 
 
-        for(int districtId = 140; districtId <= 150; districtId++) {
+        for(int districtId = firstDistrictId; districtId <= lastDistrictId; districtId++) {
 
             for(int i = 0; i <= 9; i++) {
 
@@ -139,7 +145,7 @@ public class CowinService {
         headers.set("authority", "cdn-api.co-vin.in");
         headers.set("scheme", "https");
 
-        for(int districtId = 140; districtId <= 150; districtId++) {
+        for(int districtId = firstDistrictId; districtId <= lastDistrictId; districtId++) {
 
             LocalDate dateToCheck = today.plusDays(fromToday);
             String formattedDate = dateToCheck.format(format);
